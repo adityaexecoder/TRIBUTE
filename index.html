@@ -21,9 +21,10 @@
             background: linear-gradient(270deg, #000000, #1a1a1a, #333333, #f0f0f0);
             background-size: 600% 600%;
             animation: gradientAnimation 20s ease infinite;
-            color: #E5E7EB; /* Light gray text for contrast on dark backgrounds */
+            color: #E5E7EB; /* Light gray text */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            cursor: auto; /* Restore default cursor */
         }
 
         @keyframes gradientAnimation {
@@ -32,66 +33,60 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Loading Animation Styles */
+        /* --- Morphing T Loading Animation --- */
         .loader-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.75s ease;
+            transition: opacity 1s ease-in-out;
         }
 
         .loader {
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-
-        .loader-line {
-            position: absolute;
+            width: 10px;
+            height: 10px;
             background-color: #fff;
-            border-radius: 2px;
-            transform-origin: center;
+            border-radius: 50%;
+            animation: loader-anim 2.5s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
 
-        .loader-line-1 {
-            width: 100%;
-            height: 5px;
-            top: 0;
-            left: 0;
-            transform: scaleX(0);
-            animation: grow-line-h 1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        @keyframes loader-anim {
+            0% { transform: scale(1); }
+            25% { transform: scale(5); border-radius: 50%; }
+            50% { 
+                transform: scale(1) rotate(0deg); 
+                border-radius: 0;
+                width: 80px;
+                height: 6px;
+            }
+            75% {
+                width: 6px;
+                height: 80px;
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                width: 6px;
+                height: 80px;
+                background-color: #fff;
+            }
         }
 
-        .loader-line-2 {
-            width: 5px;
-            height: 100%;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) scaleY(0);
-            transform-origin: top;
-            animation: grow-line-v 1s cubic-bezier(0.76, 0, 0.24, 1) 0.5s forwards;
-        }
 
-        @keyframes grow-line-h {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
+        /* --- Improved Text Readability --- */
+        .text-readable {
+            mix-blend-mode: difference;
+            color: white; /* This will invert to black on white backgrounds */
+            text-shadow: none;
         }
         
-        @keyframes grow-line-v {
-            from { transform: scaleY(0); }
-            to { transform: scaleY(1); }
-        }
-
-        /* Section-specific styles */
         .section-title {
-            background: -webkit-linear-gradient(45deg, #ffffff, #9CA3AF, #ffffff);
+             background: -webkit-linear-gradient(45deg, #ffffff, #9CA3AF, #ffffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -103,24 +98,14 @@
             transform: scale(1.1);
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
-        
-        /* Ensure content visibility on different parts of the gradient */
-        .text-light-shadow {
-            text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
-        }
-        .text-dark-shadow {
-            text-shadow: 0px 1px 4px rgba(255, 255, 255, 0.2);
-        }
+
     </style>
 </head>
 <body class="bg-black overflow-x-hidden">
 
     <!-- Loader -->
     <div id="loader" class="loader-wrapper">
-        <div class="loader">
-            <div class="loader-line loader-line-1"></div>
-            <div class="loader-line loader-line-2"></div>
-        </div>
+        <div class="loader"></div>
     </div>
 
     <!-- Main Content Wrapper -->
@@ -128,7 +113,7 @@
         <!-- Header -->
         <header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
             <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-                <h1 class="text-3xl font-bold text-white text-light-shadow">Tribute</h1>
+                <h1 class="text-3xl font-bold text-readable">Tribute</h1>
                 <a href="#contact" class="bg-white text-black font-semibold py-2 px-5 rounded-lg shadow-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105">Request Invite</a>
             </nav>
         </header>
@@ -137,8 +122,8 @@
             <!-- Hero Section -->
             <section id="hero" class="h-screen flex items-center justify-center text-center relative overflow-hidden">
                 <div class="container mx-auto px-6">
-                    <h2 id="hero-title" class="text-5xl md:text-7xl font-extrabold text-white text-light-shadow leading-tight">Creator Monetization,<br>Redefined.</h2>
-                    <p id="hero-subtitle" class="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto text-light-shadow">An exclusive, invite-only social platform for India's top creators to connect with their fans and build a sustainable revenue stream.</p>
+                    <h2 id="hero-title" class="text-5xl md:text-7xl font-extrabold text-readable leading-tight">Creator Monetization,<br>Redefined.</h2>
+                    <p id="hero-subtitle" class="mt-6 text-lg md:text-xl text-readable max-w-2xl mx-auto">An exclusive, invite-only social platform for India's top creators to connect with their fans and build a sustainable revenue stream.</p>
                     <a id="hero-cta" href="#contact" class="mt-10 inline-block bg-gradient-to-r from-gray-100 to-gray-300 text-black font-bold py-4 px-10 rounded-lg text-lg shadow-2xl hover:shadow-white/20 transform hover:scale-105 transition-all duration-300">
                         Become a Founding Creator
                     </a>
@@ -146,46 +131,46 @@
             </section>
 
             <!-- Core Features Section -->
-            <section id="features" class="py-20 md:py-32 bg-black/20 backdrop-blur-sm">
+            <section id="features" class="py-16 md:py-24 bg-black/20 backdrop-blur-sm">
                 <div class="container mx-auto px-6">
-                    <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-16 md:mb-24">Built for Creators & Fans</h2>
+                    <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-12 md:mb-20">Built for Creators & Fans</h2>
                     
-                    <div class="space-y-20">
+                    <div class="space-y-16 md:space-y-20">
                         <!-- Feature 1 -->
-                        <div class="feature-item flex flex-col md:flex-row items-center gap-12">
+                        <div class="feature-item flex flex-col md:flex-row items-center gap-8 md:gap-12">
                             <div class="md:w-1/2 text-center md:text-left">
-                                <h3 class="text-3xl font-bold mb-4 text-white">Exclusive Content Hub</h3>
-                                <p class="text-gray-300 text-lg">A dedicated, premium space for your content. From behind-the-scenes footage to exclusive tutorials, your fans subscribe for access to what they can't get anywhere else.</p>
+                                <h3 class="text-3xl font-bold mb-4 text-readable">Exclusive Content Hub</h3>
+                                <p class="text-lg text-readable">A dedicated, premium space for your content. From behind-the-scenes footage to exclusive tutorials, your fans subscribe for access to what they can't get anywhere else.</p>
                             </div>
                             <div class="md:w-1/2 flex justify-center">
-                                <div class="w-48 h-48 bg-gray-800/50 rounded-2xl flex items-center justify-center shadow-2xl">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <div class="w-40 h-40 md:w-48 md:h-48 bg-gray-800/50 rounded-2xl flex items-center justify-center shadow-2xl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 md:h-24 md:w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Feature 2 -->
-                        <div class="feature-item flex flex-col md:flex-row-reverse items-center gap-12">
+                        <div class="feature-item flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
                             <div class="md:w-1/2 text-center md:text-left">
-                                <h3 class="text-3xl font-bold mb-4 text-white">Direct Fan Engagement</h3>
-                                <p class="text-gray-300 text-lg">Engage directly with your top fans through private chats and exclusive group access. Build a true community, away from the noise of traditional social media.</p>
+                                <h3 class="text-3xl font-bold mb-4 text-readable">Direct Fan Engagement</h3>
+                                <p class="text-lg text-readable">Engage directly with your top fans through private chats and exclusive group access. Build a true community, away from the noise of traditional social media.</p>
                             </div>
                             <div class="md:w-1/2 flex justify-center">
-                                 <div class="w-48 h-48 bg-gray-800/50 rounded-2xl flex items-center justify-center shadow-2xl">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V10a2 2 0 012-2h8z" /></svg>
+                                 <div class="w-40 h-40 md:w-48 md:h-48 bg-gray-800/50 rounded-2xl flex items-center justify-center shadow-2xl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 md:h-24 md:w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V10a2 2 0 012-2h8z" /></svg>
                                 </div>
                             </div>
                         </div>
 
                          <!-- Feature 3 -->
-                        <div class="feature-item flex flex-col md:flex-row items-center gap-12">
+                        <div class="feature-item flex flex-col md:flex-row items-center gap-8 md:gap-12">
                             <div class="md:w-1/2 text-center md:text-left">
-                                <h3 class="text-3xl font-bold mb-4 text-white">Seamless Monetization</h3>
-                                <p class="text-gray-300 text-lg">Built-in subscription models (₹199/month and up) and premium fan tiers. We handle the payments with UPI support, so you can focus on creating.</p>
+                                <h3 class="text-3xl font-bold mb-4 text-readable">Seamless Monetization</h3>
+                                <p class="text-lg text-readable">Built-in subscription models (₹199/month and up) and premium fan tiers. We handle the payments with UPI support, so you can focus on creating.</p>
                             </div>
                             <div class="md:w-1/2 flex justify-center">
-                                 <div class="w-48 h-48 bg-gray-800/50 rounded-2xl flex items-center justify-center shadow-2xl">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                                 <div class="w-40 h-40 md:w-48 md:h-48 bg-gray-800/50 rounded-2xl flex items-center justify-center shadow-2xl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 md:h-24 md:w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                                 </div>
                             </div>
                         </div>
@@ -194,49 +179,49 @@
             </section>
 
             <!-- Tech Stack Section -->
-            <section id="tech-stack" class="py-20 md:py-32">
+            <section id="tech-stack" class="py-16 md:py-24">
                 <div class="container mx-auto px-6">
                     <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-16">The Foundation for Scale</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8 items-center max-w-5xl mx-auto">
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=React+Native" alt="React Native" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Node.js" alt="Node.js" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Firebase" alt="Firebase" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=PostgreSQL" alt="PostgreSQL" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=AWS+S3" alt="AWS S3" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Stripe" alt="Stripe" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
-                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Razorpay" alt="Razorpay" class="tech-logo h-20 w-20 object-contain rounded-full"></div>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-8 items-center max-w-5xl mx-auto">
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=React+Native" alt="React Native" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Node.js" alt="Node.js" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Firebase" alt="Firebase" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=PostgreSQL" alt="PostgreSQL" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=AWS+S3" alt="AWS S3" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Stripe" alt="Stripe" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
+                        <div class="tech-logo-container flex justify-center"><img src="https://placehold.co/100x100/1a1a1a/ffffff?text=Razorpay" alt="Razorpay" class="tech-logo h-16 w-16 md:h-20 md:w-20 object-contain rounded-full"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Market Fit Section -->
-             <section id="market-fit" class="py-20 md:py-32 bg-black/20 backdrop-blur-sm">
+             <section id="market-fit" class="py-16 md:py-24 bg-black/20 backdrop-blur-sm">
                 <div class="container mx-auto px-6 max-w-4xl">
-                    <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-16">Why Now? Why India?</h2>
+                    <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-12 md:mb-16">Why Now? Why India?</h2>
                     <div class="space-y-8">
-                        <div class="vision-item p-8 bg-gray-900/50 rounded-xl shadow-lg">
-                            <h3 class="text-2xl font-bold text-white mb-2">India-First Monetization</h3>
-                            <p class="text-gray-300">Tapping into a massive, fast-growing creator economy currently underserved by international platforms. We are built for Indian creators, with local payment methods and cultural nuances in mind.</p>
+                        <div class="vision-item p-6 md:p-8 bg-gray-900/50 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold text-readable mb-2">India-First Monetization</h3>
+                            <p class="text-readable">Tapping into a massive, fast-growing creator economy currently underserved by international platforms. We are built for Indian creators, with local payment methods and cultural nuances in mind.</p>
                         </div>
-                        <div class="vision-item p-8 bg-gray-900/50 rounded-xl shadow-lg">
-                            <h3 class="text-2xl font-bold text-white mb-2">Premium & Private by Design</h3>
-                            <p class="text-gray-300">Tribute feels like it’s built by Apple. It's a clean, design-forward, and private space that elevates the creator's brand and the fan's experience. No ads, no clutter.</p>
+                        <div class="vision-item p-6 md:p-8 bg-gray-900/50 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold text-readable mb-2">Premium & Private by Design</h3>
+                            <p class="text-readable">Tribute feels like it’s built by Apple. It's a clean, design-forward, and private space that elevates the creator's brand and the fan's experience. No ads, no clutter.</p>
                         </div>
-                        <div class="vision-item p-8 bg-gray-900/50 rounded-xl shadow-lg">
-                            <h3 class="text-2xl font-bold text-white mb-2">Strategic Growth Engine</h3>
-                            <p class="text-gray-300">Our go-to-market strategy focuses on onboarding creators who already have a proven ability to drive revenue and traction—models, gamers, and niche influencers—to build a strong foundation.</p>
+                        <div class="vision-item p-6 md:p-8 bg-gray-900/50 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold text-readable mb-2">Strategic Growth Engine</h3>
+                            <p class="text-readable">Our go-to-market strategy focuses on onboarding creators who already have a proven ability to drive revenue and traction—models, gamers, and niche influencers—to build a strong foundation.</p>
                         </div>
                     </div>
                 </div>
             </section>
             
             <!-- Co-founder Section -->
-            <section id="contact" class="py-20 md:py-32">
+            <section id="contact" class="py-16 md:py-24">
                 <div class="container mx-auto px-6 text-center max-w-3xl">
                     <h2 class="section-title text-4xl md:text-5xl font-bold mb-6">Join Us as a Technical Co-Founder</h2>
-                    <p class="text-lg text-gray-300 mb-12">We're looking for a passionate and skilled technical leader to build the future of creator monetization with us. If you're excited by this vision, you're the one we're looking for.</p>
+                    <p class="text-lg text-readable mb-12">We're looking for a passionate and skilled technical leader to build the future of creator monetization with us. If you're excited by this vision, you're the one we're looking for.</p>
                     
-                    <div class="cofounder-reqs text-left grid md:grid-cols-2 gap-x-8 gap-y-6 max-w-2xl mx-auto">
+                    <div class="cofounder-reqs text-left grid sm:grid-cols-2 gap-x-8 gap-y-4 max-w-2xl mx-auto text-readable">
                         <div class="req-item flex items-start gap-3"><span class="text-green-400 mt-1">✓</span><span>Lead MVP development (web & mobile)</span></div>
                         <div class="req-item flex items-start gap-3"><span class="text-green-400 mt-1">✓</span><span>Architect a scalable & secure backend</span></div>
                         <div class="req-item flex items-start gap-3"><span class="text-green-400 mt-1">✓</span><span>Expertise in subscriptions & payments</span></div>
@@ -255,7 +240,7 @@
 
         <!-- Footer -->
         <footer class="py-8 bg-black/50">
-            <div class="container mx-auto px-6 text-center text-gray-400">
+            <div class="container mx-auto px-6 text-center text-gray-400 text-readable">
                 <p>&copy; 2025 Tribute. All Rights Reserved.</p>
             </div>
         </footer>
@@ -269,16 +254,36 @@
     <!-- Animation Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- LOADER ANIMATION ---
+
+            // --- LOADER LOGIC ---
             const loader = document.getElementById('loader');
             const mainContent = document.getElementById('main-content');
             
-            // Hide loader and show content after a delay
-            setTimeout(() => {
-                gsap.to(loader, { opacity: 0, duration: 0.75, onComplete: () => loader.style.display = 'none' });
-                gsap.to(mainContent, { opacity: 1, duration: 1 });
-            }, 2000); // Matches the loader animation duration
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    gsap.to(loader, { 
+                        opacity: 0, 
+                        duration: 1, 
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            loader.style.display = 'none';
+                        } 
+                    });
+                    
+                    gsap.to(mainContent, { 
+                        opacity: 1, 
+                        duration: 1.5, 
+                        delay: 0.2,
+                        ease: 'power3.out'
+                    });
+
+                    // Trigger hero animations after the main content starts fading in
+                    gsap.from("#hero-title", { duration: 1.2, y: 60, opacity: 0, delay: 0.5, ease: "power3.out" });
+                    gsap.from("#hero-subtitle", { duration: 1.2, y: 60, opacity: 0, delay: 0.7, ease: "power3.out" });
+                    gsap.from("#hero-cta", { duration: 1.2, y: 60, opacity: 0, delay: 0.9, ease: "power3.out" });
+
+                }, 2500); // Duration of the loader animation
+            });
 
             // --- GSAP SCROLL ANIMATIONS ---
             gsap.registerPlugin(ScrollTrigger);
@@ -291,24 +296,18 @@
                 toggleClass: {className: 'bg-black/70 backdrop-blur-lg shadow-2xl', targets: header}
             });
 
-            // Hero Section Animation
-            gsap.from("#hero-title", { duration: 1, y: 50, opacity: 0, delay: 2, ease: "power3.out" });
-            gsap.from("#hero-subtitle", { duration: 1, y: 50, opacity: 0, delay: 2.2, ease: "power3.out" });
-            gsap.from("#hero-cta", { duration: 1, y: 50, opacity: 0, delay: 2.4, ease: "power3.out" });
-
             // Features Section Animation
             gsap.utils.toArray('.feature-item').forEach((item, index) => {
-                const direction = index % 2 === 0 ? -100 : 100;
-                gsap.from(item, {
-                    x: direction,
-                    opacity: 0,
-                    duration: 1,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top 80%",
-                        toggleActions: "play none none none"
-                    }
+                const media = item.querySelector('.md\\:w-1\\/2 > div');
+                const text = item.querySelector('.md\\:w-1\\/2:not(:has(>div))');
+                
+                gsap.from(media, {
+                    opacity: 0, scale: 0.8, duration: 1, ease: "power3.out",
+                    scrollTrigger: { trigger: item, start: "top 80%", toggleActions: "play none none none" }
+                });
+                gsap.from(text, {
+                    opacity: 0, x: index % 2 === 0 ? -50 : 50, duration: 1, ease: "power3.out",
+                    scrollTrigger: { trigger: item, start: "top 80%", toggleActions: "play none none none" }
                 });
             });
 
